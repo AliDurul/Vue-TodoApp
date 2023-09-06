@@ -13,7 +13,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Formik, Form } from 'formik'
-import { object,string } from "yup"
+import { object, string } from "yup"
+import { useSelector } from "react-redux"
+
+
+
 
 function Copyright(props) {
     return (
@@ -30,25 +34,33 @@ function Copyright(props) {
 
 const loginSchema = object({
     email: string()
-      .email("Lutfen valid bir email giriniz")
-      .required("Bu alan zorunludur"),
+        .email("Lutfen valid bir email giriniz")
+        .required("Bu alan zorunludur"),
     password: string()
-      .required("Bu alan zorunludur")
-      .min(8, "En az 8 karakter girilmelidir")
-      .max(16, "En fazla 16 karakter girilmelidir")
-      .matches(/\d+/, "En az bir rakam içermelidir.")
-      .matches(/[a-z]/, "En az bir küçük harf içermelidir.")
-      .matches(/[A-Z]/, "En az bir büyük harf içermelidir.")
-      .matches(/[!,?{}><%&$#£+-.]+/, "En az bir özel karekter içermelidir."),
-  })
+        .required("Bu alan zorunludur")
+        .min(8, "En az 8 karakter girilmelidir")
+        .max(16, "En fazla 16 karakter girilmelidir")
+        .matches(/\d+/, "En az bir rakam içermelidir.")
+        .matches(/[a-z]/, "En az bir küçük harf içermelidir.")
+        .matches(/[A-Z]/, "En az bir büyük harf içermelidir.")
+        .matches(/[!,?{}><%&$#£+-.]+/, "En az bir özel karekter içermelidir."),
+})
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-export default function Login() {
- 
 
+
+
+
+
+
+
+export default function Login() {
+
+    const { loading } = useSelector((state) => state.auth)
+    console.log(loading);
     return (
         <ThemeProvider theme={defaultTheme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
@@ -85,15 +97,15 @@ export default function Login() {
                         </Typography>
 
                         <Formik
-                        initialValues={{email:"", password:""}}
-                        validationSchema={loginSchema}
-                        onSubmit={(values,action) => {
-                          console.log(values);
-                        }}
+                            initialValues={{ email: "", password: "" }}
+                            validationSchema={loginSchema}
+                            onSubmit={(values, action) => {
+                                console.log(values);
+                            }}
                         >
 
                             {
-                                ({values,handleChange, handleBlur, touched, errors }) => (
+                                ({ values, handleChange, handleBlur, touched, errors }) => (
                                     <Form>
                                         <Box noValidate sx={{ mt: 1 }}>
                                             <TextField
@@ -111,7 +123,7 @@ export default function Login() {
                                                 error={touched.email && Boolean(errors.email)}
                                                 helperText={errors.email}
                                             />
-                                          
+
                                             <TextField
                                                 margin="normal"
                                                 required

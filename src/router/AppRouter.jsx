@@ -6,7 +6,7 @@ const AppRouter = () => {
 
         <Routes>
             <Route path="/" element={<Login/>} />
-
+            
         </Routes>
 
 
