@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Formik, Form } from 'formik'
 import { object, string } from "yup"
-import { useSelector } from "react-redux"
+import useAuthCall from '../hooks/useAuthCall';
 
 
 
@@ -51,16 +51,13 @@ const loginSchema = object({
 const defaultTheme = createTheme();
 
 
-
-
-
-
-
-
 export default function Login() {
 
-    const { loading } = useSelector((state) => state.auth)
-    console.log(loading);
+    const { login } = useAuthCall()
+
+
+
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
@@ -99,8 +96,8 @@ export default function Login() {
                         <Formik
                             initialValues={{ email: "", password: "" }}
                             validationSchema={loginSchema}
-                            onSubmit={(values, action) => {
-                                console.log(values);
+                            onSubmit={(values) => {
+                                login(values)
                             }}
                         >
 
